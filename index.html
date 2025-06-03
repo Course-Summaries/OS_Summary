@@ -8,6 +8,123 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #1e3c72, #2a5298);
+            color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            animation: fadeIn 1s ease-in;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(to right, #141e30, #243b55);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            animation: slideInTop 1s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #cfcfcf;
+        }
+
+        .file-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .file-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        a.button {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            margin-top: 0.5rem;
+            background: linear-gradient(to right, #06beb6, #48b1bf);
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+
+        a.button:hover {
+            background: linear-gradient(to right, #48b1bf, #06beb6);
+            transform: scale(1.05);
+        }
+
+        section {
+            padding: 2rem;
+            animation: fadeIn 1.2s ease-in;
+        }
+
+        #feedbackForm .submit-button {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            background: linear-gradient(135deg, #00adb5, #00cfc1);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        #feedbackForm .submit-button:hover {
+            background: linear-gradient(135deg, #00cfc1, #00adb5);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #101820;
+            color: #aaa;
+        }
+
+        footer a {
+            color: #ffd369;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInTop {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -22,12 +139,14 @@
             <div class="file-card">
                 <h3>📘 Course Summary</h3>
                 <p>Dives into each lecture topic, OS principles, and practical concepts.</p>
-                <a class="button" href="https://razi203.github.io/OS_Summary/summary.pdf" target="_blank">View PDF</a>
+                <a class="button" href="https://razi203.github.io/OS_Summary/Course Summary/course material.pdf"
+                    target="_blank">View PDF</a>
             </div>
             <div class="file-card">
                 <h3>🔧 Functions Reference</h3>
                 <p>Includes all used POSIX system calls, formatted and summarized.</p>
-                <a class="button" href="https://razi203.github.io/OS_Summary/functions.pdf" target="_blank">View PDF</a>
+                <a class="button" href="https://razi203.github.io/OS_Summary/Functions/functions.tex"
+                    target="_blank">View PDF</a>
             </div>
         </section>
 
@@ -42,15 +161,67 @@
             <p>Spotted a typo? Want to suggest improvements? We welcome contributions!</p>
             <ul>
                 <li><a href="https://github.com/razi203/OS_Summary" target="_blank">View on GitHub</a></li>
-                <li><a href="mailto:razi@example.com">Send an Email</a></li>
-                <li>Fork the repo and submit a pull request 💡</li>
+                <li>Use the form below to send a suggestion without signing in:</li>
             </ul>
+            <form id="feedbackForm" enctype="multipart/form-data">
+                <label for="message">Your Suggestion:</label><br>
+                <textarea id="message" name="message" rows="5" style="width:100%; margin-top:0.5rem;"
+                    required></textarea><br><br>
+
+                <label for="file">Optional File Upload:</label><br>
+                <input type="file" id="file" name="attachment" style="margin-top:0.5rem;"><br>
+
+                <button type="submit" class="submit-button" style="margin-top:1rem;">Submit Suggestion</button>
+                <p id="formStatus" style="margin-top:0.5rem;"></p>
+            </form>
         </section>
     </main>
 
     <footer>
-        <p>Made with ❤️ by Razi & Yara | <a href="https://github.com/razi203/OS_Summary">GitHub Repo</a></p>
+        <p>Made with ❤️ by Yara & Razi | <a href="https://github.com/razi203/OS_Summary">GitHub Repo</a></p>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("feedbackForm");
+            const status = document.getElementById("formStatus");
+
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const message = document.getElementById("message").value.trim();
+                const fileInput = document.getElementById("file");
+
+                if (!message) {
+                    status.textContent = "Please enter a suggestion.";
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append("message", message);
+                if (fileInput.files.length > 0) {
+                    formData.append("attachment", fileInput.files[0]);
+                }
+
+                try {
+                    const response = await fetch("https://formspree.io/f/xzzgbold", {
+                        method: "POST",
+                        body: formData,
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    if (response.ok) {
+                        status.textContent = "✅ Thanks for your suggestion!";
+                        form.reset();
+                    } else {
+                        status.textContent = "⚠️ Something went wrong. Try again later.";
+                    }
+                } catch (err) {
+                    status.textContent = "⚠️ Network error. Please check your connection.";
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
