@@ -1,0 +1,71 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{longtable}
+\usepackage{enumitem}
+
+\geometry{margin=1in}
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\pagestyle{fancy}
+\fancyhead[L]{Functions Reference}
+\fancyhead[C]{Operating Systems 234123}
+\fancyhead[R]{Spring 2025}
+
+\title{Operating Systems (02340123)\\ Functions Reference}
+\author{Razi \& Yara}
+\date{\today}
+
+\newcommand{\functionentry}[6]{%
+  \noindent\rule{\linewidth}{0.5pt}
+  \subsubsection*{\texttt{#1}}
+  \textbf{Declaration:} \texttt{#2} \\
+  \textbf{Usage/Explanation:} #3 \\
+  \textbf{Parameters:}
+  \begin{itemize}[leftmargin=*]
+    #4
+  \end{itemize}
+  \textbf{Return Values:} #5 \\
+  \textbf{Additional:} #6
+  \vspace{1em}
+}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Process Management}
+
+\functionentry{fork}
+{pid\_t fork(void);}
+{Creates a child process by duplicating the calling process.}
+{\item None}
+{Returns 0 to child, PID of child to parent, -1 on error.}
+{\label{fork}}
+
+\functionentry{wait}
+{pid\_t wait(int *wstatus);}
+{Waits for a child process to change state.}
+{\item \texttt{wstatus}: Pointer to store child's status}
+{Returns child's PID or -1 on error.}
+{Use macros \texttt{WIFEXITED}, \texttt{WEXITSTATUS} to interpret status.\label{func:wait}}
+
+% ... more function entries here
+
+\newpage
+\section*{Cheat Sheet}
+\begin{longtable}{|l|p{11cm}|}
+    \hline
+    \textbf{Function} & \textbf{Summary}                                                \\
+    \hline
+    \texttt{fork()}   & Creates a new child process, identical to the parent initially. \\
+    \texttt{wait()}   & Suspends execution until a child process ends.                  \\
+    % Add more functions here
+    \hline
+\end{longtable}
+
+\end{document}

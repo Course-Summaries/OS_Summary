@@ -1,0 +1,114 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xr-hyper} % External referencing
+\externaldocument[func:]{../Functions/functions} % Path to functions.aux
+
+\geometry{margin=1in}
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\pagestyle{fancy}
+\fancyhead[L]{Course Summary}
+\fancyhead[C]{Operating Systems 234123}
+\fancyhead[R]{Spring 2025}
+
+\title{Operating Systems (02340123)\\ Summary}
+\author{Razi \& Yara}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+
+% ====================================================
+% ====================================================
+% ====================================================
+% ------------------- Notes Section ------------------
+% ====================================================
+% ====================================================
+% ====================================================
+
+\part{Lectures \& Tutorials}
+\section{Processes and Signals}
+A process is a schedulable entity executed by the OS. It has its own virtual memory space, stack, and heap. Key system calls include \texttt{fork()}\footnote{For more details, see \hyperref[func:fork]{Functions Reference}.} , \texttt{execv()}, and \texttt{wait()}.
+
+Reference: \hyperref[func:fork]{\texttt{fork()}} (defined in the Functions file).
+
+Sometimes, function details are important inline\footnote{Signals are asynchronous notifications sent to processes, handled in user mode.}:
+\begin{quote}
+    \textbf{Function:} \texttt{pid\_t fork(void);}
+    \newline
+    Usage: Creates a new process by duplicating the current one.
+    \newline
+    Return: 0 for child, child's PID for parent, -1 on failure.
+\end{quote}
+
+\section{Virtual Memory}
+... (and so on for each lecture/topic)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% ==================================================== 
+% ==================================================== 
+% ==================================================== 
+% ----------------- Summary Section ------------------
+% ==================================================== 
+% ==================================================== 
+% ==================================================== 
+\newpage
+\part{Overall Summary}
+Summarize core OS concepts: virtual memory, scheduling, synchronization, I/O, etc.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% ==================================================== 
+% ==================================================== 
+% ==================================================== 
+% --------------- Highlights Section ----------------=
+% ==================================================== 
+% ==================================================== 
+% ==================================================== 
+\newpage
+\part{Highlights and Notes}
+\begin{itemize}
+    \item Processes are isolated, but related via parent-child hierarchy.
+    \item \texttt{exec()} does not create a new process.
+    \item Signals are async notifications - handled in user mode.
+\end{itemize}
+
+
+
+
+\end{document}
