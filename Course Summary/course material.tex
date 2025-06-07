@@ -14,11 +14,16 @@
 \usepackage{booktabs}
 \usepackage{xcolor}
 \usepackage{listings}
+\usepackage{colortbl}
 
 \usepackage{enumitem}
 \usepackage{amsthm}
 \newtheorem*{definition}{Definition}
 
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\gray}[1]{\textcolor{gray}{#1}}
 
 
 % =====================================================
@@ -125,21 +130,35 @@
 \vspace{1em}
 Most importantly, an OS is \textbf{reactive}, "event-driven" system, which means it waits for events to happen and then reacts to them. This is in contrast to typical programs which run from start to end without waiting for external events to occur to invoke them.
 
-\begin{tabular}{|>{\raggedright\arraybackslash}p{3.5cm} | >{\raggedright\arraybackslash}p{6.5cm} | >{\raggedright\arraybackslash}p{5.5cm}|}
-    \hline
-    \textbf{}                           & \textbf{Typical Programs}                                             & \textbf{OS}                                                                  \\
-    \hline
-    \textbf{what does it typically do?} & get some input, do some processing, produce output, terminate         & waits \& reacts to ``events''                                                \\
-    \hline
-    \textbf{structure}                  & has a \texttt{main} function, which is (more or less) the entry point & no \texttt{main}; multiple entry points, one per event                       \\
-    \hline
-    \textbf{termination}                & end of main                                                           & power shutdown                                                               \\
-    \hline
-    \textbf{typical goal}               & $\sim$ finish as soon as possible                                     & handle events as quickly as possible $\Rightarrow$ more time for apps to run \\
-    \hline
-\end{tabular}
-\newline
-OS events can be classified into two:
+\begin{center}
+    \rowcolors{2}{gray!15}{white}
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{4.5cm}
+        |>{\raggedright\arraybackslash}p{6.5cm}
+        |>{\raggedright\arraybackslash}p{5.5cm}|}
+        \hline
+        \rowcolor{blue!30}
+         & \textbf{Typical Programs}                                                    & \textbf{OS} \\
+        \hline
+        \textbf{What does it typically do?}
+         & Get some input, do some processing, produce output, terminate
+         & Waits \& reacts to ``events''                                                              \\
+        \hline
+        \textbf{Structure}
+         & Has a \texttt{main} function, which is (more or less) the entry point
+         & No \texttt{main}; multiple entry points, one per event                                     \\
+        \hline
+        \textbf{Termination}
+         & End of \texttt{main}
+         & Power shutdown                                                                             \\
+        \hline
+        \textbf{Typical goal}
+         & $\sim$ Finish as soon as possible
+         & Handle events as quickly as possible $\Rightarrow$ more time for apps to run               \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\paragraph{Event Synchronousation} OS events can be classified into two:
 \begin{itemize}
     \item \textbf{Asynchronous interrupts:} keyboard, mouse, network, disk, etc. These are events that can happen at any time and the OS must be ready to handle them.
     \item \textbf{Synchronous:} system calls, divide by zero, page faults, etc. These are events that happen as a result of the program's execution and the OS must handle them immediately.
@@ -178,6 +197,7 @@ Each process is an instance of a program in execution, which includes:
     \item \textbf{Process control block (PCB):} A data structure used by the OS to manage the process, containing information such as process ID, process state, CPU registers, memory management information, and I/O status information.\\
           A process \underline{doesn't have direct access to its PCB}, it is managed by the OS, i.e. needs privilege level 0 (kernel mode) to access it.
     \item \textbf{Process resources:} The resources allocated to the process, such as memory, file descriptors, and network sockets.
+    \item \textbf{Process ID (PID):} A unique identifier assigned to each process by the OS. The PID is used by the OS to manage the process and is used in system calls to refer to the process.
 \end{itemize}
 
 \begin{definition}
@@ -197,40 +217,142 @@ As we saw in "ATAM", each process can only access a certain set of utilites and 
 \vspace{1em}
 
 Each \textit{syscall}, in case of an error, will change the \texttt{errno} variable to indicate the error type. The \texttt{errno} variable is a global variable that is set by system calls and some library functions in the event of an error to indicate what went wrong. It is defined in the header file \texttt{errno.h}. {\color{blue}\textbf{Note:} \texttt{errno} is not reset to 0 after a successful syscall, so it must be checked immediately after the syscall, and be reset before usage if need be} (if there is not any other way to make sure there is an error indeed).\\
-i.e. \texttt{errno=}
+i.e. \texttt{errno = <Number of Last Syscall Error>;}
+
+\vspace{1em}
+
+As noted above, each process must be \code{wait()}ed for by its parent process to be able to release its PCB and resources. This is done by the \texttt{wait()} syscall, which suspends the calling process until one of its children terminates. In case {\color{red} the parent process terminates before the child}, the child process {\color{red} becomes an orphan process and is adopted by the init process (PID 1)}, which will then wait for it to terminate and release its resources.
 
 
-\begin{lstlisting}[language=C++, caption={Example of using \texttt{errno} in C}, label={lst:errno_example}]
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
-#include <unistd.h>
-int main() {
-    FILE *file = fopen("non_existent_file.txt", "r");
-    if (file == NULL) {
-        // An error occurred, print the error message
-        printf("Error opening file: %s\n", strerror(errno));
-        return 1;
-    }
-    fclose(file);
-    return 0;
-}
-\end{lstlisting}
+\paragraph{Process Management} The OS offers various system calls to manage processes, including: \gray{(More details in the functions reference)}
+\begin{itemize}
+    \item \texttt{fork()}: Creates a new process by duplicating the calling process. The new process is called the child process, and the calling process is called the parent process.
+    \item \texttt{exec()}: Replaces the current process image with a new process image, effectively running a different program in the same process.
+    \item \texttt{wait()}: Suspends the calling process until one of its children terminates.
+    \item \texttt{exit()}: Terminates the calling process and releases its resources.
+    \item \texttt{getpid()}: Returns the process ID of the calling process.
+    \item \texttt{getppid()}: Returns the process ID of the parent process.
+    \item \texttt{kill()}: Sends a signal to a process, which can be used to terminate or suspend the process.
+\end{itemize}
 
+\paragraph{Parent Vs. Real Parent Process}
+The real parent process is the one that created the current process using \code{fork()}, or the one that adopted it in case the real parent terminated before the child.
 
+The parent process is the one \textit{tracing} the current process, e.g. using \code{ptrace()}. The parent process is the one that will receive signals from the current process, e.g. \texttt{SIGCHLD} when the current process terminates.
 
-
-
-
-
-
+In most cases, the parent process is the real parent process, but it can be different in some cases, e.g. when a process is being traced by a debugger.
 
 
 
+\begin{definition}
+    [\textbf{Daemon Process}]
+    A daemon process is a background process not controlled by the user.
+    To run a process as a daemon use \code{nohup <command> \&}.
+
+    Daemon names usually end with the letter "d", e.g. \texttt{sshd} (SSH daemon), \texttt{httpd} (HTTP daemon), etc.
+\end{definition}
 
 
 
 
+% ===================================================== Signals Section
+\newpage
+\section*{Signals}
+\begin{definition}
+    [\textbf{Signal}]
+    Signals are "notifications" sent to a process to asynchronously notify it that some event has occurred.
+
+    * Receiving a signal only occurs then returning from kernel mode, which in turn invokes the corresponding signal handler.
+
+    ** Default signal handling actions: Either die or ignore
+
+    *** In case of several signals from different types, they will be handled by the order of their definition in the signals register.
+\end{definition}
+
+\vspace{1em}
+
+Each signal has a name, a number, and a default action. All but 3 signals can be blocked, i.e. ignored until the process is ready to handle them. The 3 signals that cannot be blocked are:
+\begin{itemize}
+    \item \texttt{SIGKILL}: Used to forcefully terminate a process. (Process becomes a zombie)
+    \item \texttt{SIGSTOP}: Used to suspend the receiving process. (Make it sleep) The signals is sent when the user presses Ctrl+Z in the terminal. {\color{gray}Note: In truth Ctrl+Z sends the \texttt{SIGTSTP} signal, however, we don't learn about the differences between the two signals in this course.}
+    \item \texttt{SIGCONT}: Used to resume a suspended process, usually sent after a \texttt{SIGSTOP} signal. The handler for this signal can be customized but it {\color{red}will always} resume the process.
+\end{itemize}
+\texttt{SIGSTOP} and \texttt{SIGCONT} are useful for debugging purposes, allowing the user to pause and resume the execution of a process.
+
+\paragraph{Signal Handling}
+A process can define a custom signal handler for a specific signal using the \texttt{signal()} or \texttt{sigaction()} {\color{gray}preferred} system calls.
+To ignore a signal, the process can set its handler to \texttt{SIG\_IGN}. To restore the default action for a signal, the process can set its handler to \texttt{SIG\_DFLT}.
+
+\paragraph{Signal Masking}
+A process can block signals using the \texttt{sigprocmask()} system call, which allows the process to specify a set of signals to block. This is allows the process to overcome \textit{Race Conditions} resulted from the asynchronous nature of signals.\\
+\indent This is achieved by maintaining a set of currently blocked signals \& a set of masked signals which is saved in the {\color{blue}PCB}.\\
+\texttt{Blocked Signals} = mask array.\\
+\texttt{Pending Signals} = signals that were sent to the process while it was blocked, and will be handled when the process unblocks them.
+
+\newpage
+\paragraph{Common Signals} the following are some of the most common signals:
+\begin{enumerate}
+    \item \textbf{\code{SIGSEGV, SIGBUS, SIGIILL, SIGFPE}}: These are driven by the associated \blue{(HW) interrupts} - The OS gets the associated interrupt, then the OS interrupt handler sees to it that the misbehaving process gets the associated signal, lastly the signaly handler is invoked.
+          \begin{itemize}
+              \item \texttt{SIGSEGV}: Segmentation violation (illegal memory reference, e.g., outside an array).
+              \item \texttt{SIGBUS}: Dereference invalid address (null/misaligned, assume it's like SEGV).
+              \item \texttt{SIGIILL}: Illegal instruction (trying to invoke privileged instruction).
+              \item \texttt{SIGFPE}: Floating-point exception (despite the name, \textit{all} arithmetic errors, not just floating point. e.g., division by zero).
+          \end{itemize}
+
+    \item \textbf{\code{SIGCHLD}}: Parent \gray(not real parent) get it whenver \code{fork()}ed child terminates or is \code{SIGSTOP}-ed.
+
+    \item \textbf{\code{SIGALRM}}: Get a signal after some specified time, can be set using the \blue{\code{alarm()} \& \code{setitimer()}} system calls.
+
+    \item \textbf{\code{SIGTRAP}}: When debuggin/single-stepping a process, the debugger can set a breakpoint in the code, which will cause the process to receive a \texttt{SIGTRAP} signal when it reaches that point.
+
+    \item \textbf{\code{SIGUSR1, SIGUSR2}}: User-defined signals, user can decide the meaning of these signals and their handlers.
+
+    \item \textbf{\code{SIGPIPE}}: Write to pipe with no readers.
+
+    \item \textbf{\code{SIGINT}}: Sent when the user presses Ctrl+C in the terminal. The default action is to terminate the process, but it can be customized.
+
+    \item \textbf{\code{SIGXCPU}}: Delivered when a process used up more CPU than its soft-limit allows: soft/hard limits are set using the \blue{\code{setrlimit()}} system call. Soft-limits warn the process its about to exceed the hard-limit, Exceeding the hard-limit will cause \code{SIGKILL} to be sent to the process.
+
+    \item \textbf{\code{SIGIO}}: Can configure file descriptors such that a signal will be delivered whenever some I/O is ready.
+
+          Typically makes sense when also configuring the file descriptor to be \textit{non-blocking}, e.g., when \code{read()}ing from a non-blocking file descriptor, the system call immediately returns to user if there's currently nothing to read. In this case, \code{errno} will be set to \code{EAGAIN=EWOULDBLOCK}.
+\end{enumerate}
+
+
+\begin{samepage}
+    \begin{center}
+        \textbf{Signals Vs. Interrupts}
+        \rowcolors{2}{gray!15}{white}
+        \begin{tabular}{|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}p{5.5cm}|}
+            \hline
+            \rowcolor{blue!30}
+             & \textbf{interrupts}                                                                      & \textbf{signals} \\
+            \hline
+            Who triggers them? \newline Who defines their meaning?
+             & Hardware: \newline CPU cores (sync) \& other devices (async)
+             & Software (OS), \newline HW is unaware                                                                       \\
+            \hline
+            Who handles them? \newline Who (un)blocks them?
+             & OS
+             & processes                                                                                                   \\
+            \hline
+            When do they occur?
+             & Both synchronously \& asynchronously
+             & Likewise, but, technically, \newline invoked when returning \newline from kernel to user                    \\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{samepage}
+
+
+
+
+
+% =====================================================
+% ================== Lecture 3 ========================
+% =====================================================
+\lecture{IPC - Inter-Process Communication}
 
 
 

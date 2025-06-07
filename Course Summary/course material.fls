@@ -108,6 +108,9 @@ INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/lstmisc.sty
 INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/listings.cfg
 INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/listings.cfg
 INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/listings.cfg
+INPUT c:/texlive/2024/texmf-dist/tex/latex/colortbl/colortbl.sty
+INPUT c:/texlive/2024/texmf-dist/tex/latex/colortbl/colortbl.sty
+INPUT c:/texlive/2024/texmf-dist/tex/latex/graphics/color.sty
 INPUT c:/texlive/2024/texmf-dist/tex/latex/enumitem/enumitem.sty
 INPUT c:/texlive/2024/texmf-dist/tex/latex/enumitem/enumitem.sty
 INPUT c:/texlive/2024/texmf-dist/tex/latex/amscls/amsthm.sty
@@ -155,27 +158,13 @@ INPUT c:/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm
 INPUT c:/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
 INPUT c:/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
 INPUT c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
-INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/lstlang1.sty
-INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/lstlang1.sty
-INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/lstlang1.sty
-INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/lstlang1.sty
-INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/lstlang1.sty
-INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/lstlang1.sty
-INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/lstmisc.sty
-INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/lstmisc.sty
-INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/lstmisc.sty
-INPUT c:/texlive/2024/texmf-dist/tex/latex/base/omlcmr.fd
-INPUT c:/texlive/2024/texmf-dist/tex/latex/base/omlcmr.fd
-INPUT c:/texlive/2024/texmf-dist/tex/latex/base/omlcmr.fd
-INPUT c:/texlive/2024/texmf-dist/tex/latex/base/omscmr.fd
-INPUT c:/texlive/2024/texmf-dist/tex/latex/base/omscmr.fd
-INPUT c:/texlive/2024/texmf-dist/tex/latex/base/omscmr.fd
+INPUT c:/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmitt10.tfm
 INPUT course material.aux
 INPUT ./course material.out
 INPUT ./course material.out
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb
-INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb
+INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
