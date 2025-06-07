@@ -1,3 +1,4 @@
+/* Base reset */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,124 +7,160 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
-    color: #f5f5f5;
+    background-color: #f8f8f8;
+    color: #111;
     line-height: 1.6;
 }
 
+/* Hero */
 header {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 2rem;
+    height: 100vh;
+    background: linear-gradient(135deg, #111, #222);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    padding: 2rem;
 }
 
 header h1 {
-    font-size: 2.75rem;
-    color: #ffd369;
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
 }
 
 header p {
-    font-size: 1.2rem;
-    color: #eee;
+    font-size: 1.3rem;
+    color: #ccc;
 }
 
+/* Main Content */
 main {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: auto;
-    padding: 2rem;
+    padding: 4rem 2rem;
 }
 
-section {
-    margin-bottom: 2.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
 }
 
-section h2 {
-    color: #fcd34d;
+.info {
+    margin-top: 4rem;
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
     margin-bottom: 1rem;
 }
 
 .file-card {
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease;
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
 
 .file-card:hover {
-    transform: scale(1.02);
-    background-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-6px);
 }
 
 .file-card h3 {
-    color: #00fff5;
+    color: #007878;
+    font-weight: 600;
 }
 
-a.button {
+.button {
     display: inline-block;
     padding: 0.6rem 1.2rem;
-    background: #00adb5;
+    background: #007878;
     color: white;
-    text-decoration: none;
     border-radius: 6px;
-    font-weight: 600;
-    margin-top: 0.5rem;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+    margin-top: 1rem;
 }
 
-a.button:hover {
-    background: #02cfd1;
+.button:hover {
+    background: #00a0a0;
+}
+
+form textarea {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    resize: vertical;
 }
 
 footer {
-    text-align: center;
-    padding: 1.5rem;
+    background: #222;
     color: #aaa;
+    text-align: center;
+    padding: 2rem;
     font-size: 0.9rem;
 }
 
 footer a {
-    color: #ffd369;
-    text-decoration: none;
-}
-
-footer a:hover {
+    color: #fff;
     text-decoration: underline;
 }
 
-
-/* Style for file upload input */
-input[type="file"] {
-    margin-top: 0.5rem;
-    padding: 0.4rem;
-    color: #eee;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid #444;
-    border-radius: 6px;
-    width: 100%;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
+footer a:hover {
+    color: #f77;
 }
 
-input[type="file"]::-webkit-file-upload-button {
-    background: #00adb5;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+.pdf-viewer {
+    padding: 2rem;
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
 }
 
-input[type="file"]::-webkit-file-upload-button:hover {
-    background: #02cfd1;
+.pdf-viewer h2 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 2rem;
 }
 
-/* Style for submit button already uses .button */
-form .button {
-    width: fit-content;
+.back {
+    margin-top: 2rem;
+}
+
+
+.pdf-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.pdf-fallback {
+    margin-top: 1rem;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.pdf-fallback a {
+    text-decoration: underline;
+    color: #007878;
+}
+
+@media (max-width: 600px) {
+    .pdf-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .pdf-viewer iframe {
+        height: 80vh;
+    }
 }

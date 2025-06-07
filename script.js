@@ -1,27 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("feedbackForm");
+    const form = document.querySelector("form");
     const status = document.getElementById("formStatus");
+
+    if (!form || !status) return;
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-
-        const message = document.getElementById("message").value.trim();
-
-        if (!message) {
-            status.textContent = "Please enter a suggestion.";
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("message", message);
+        const data = new FormData(form);
 
         try {
-            const response = await fetch("https://formspree.io/f/xzzgbold", {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "Accept": "application/json"
-                }
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: data,
+                headers: { Accept: "application/json" },
             });
 
             if (response.ok) {
@@ -30,8 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 status.textContent = "⚠️ Something went wrong. Try again later.";
             }
-        } catch (err) {
-            status.textContent = "⚠️ Network error. Please check your connection.";
+        } catch (error) {
+            status.textContent = "⚠️ Network error. Please try again.";
         }
     });
 });

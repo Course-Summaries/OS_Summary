@@ -2,83 +2,65 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operating Systems 2025 Summary</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Operating Systems 2025</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
     <script defer src="script.js"></script>
-    <style>
-        .submit-button {
-            display: inline-block;
-            padding: 0.7rem 1.5rem;
-            background: linear-gradient(135deg, #00adb5, #00cfc1);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-
-        .submit-button:hover {
-            background: linear-gradient(135deg, #00cfc1, #00adb5);
-            transform: translateY(-2px);
-        }
-    </style>
 </head>
 
 <body>
     <header>
-        <h1>Operating Systems 2025</h1>
-        <p>Technion | POSIX-Focused Course Summary & Reference Hub</p>
+        <h1>Operating Systems</h1>
+        <h1>Spring - 2025</h1>
+        <h2>02340123</h2>
+        <p>Technion | Course Summary & Reference Hub</p>
+        <p> Made by Razi & Yara</p>
+        <h1>🡇</h1>
     </header>
 
     <main>
-        <section id="overview">
-            <h2>📂 Files Overview</h2>
+        <section class="grid">
             <div class="file-card">
                 <h3>📘 Course Summary</h3>
-                <p>Dives into each lecture topic, OS principles, and practical concepts.</p>
-                <a class="button" href="https://razi203.github.io/OS_Summary/Course%20Summary/course%20material.pdf"
-                    target="_blank">View Summary</a>
+                <p>Detailed overview of each lecture, concepts, and core systems principles.</p>
+                <a class="button" href="course.html">Open Summary</a>
             </div>
             <div class="file-card">
-                <h3>🔧 Functions Cheat Sheet</h3>
-                <p>Includes all used POSIX system calls, formatted and summarized.</p>
-                <a class="button" href="https://razi203.github.io/OS_Summary/Functions/functions.pdf"
-                    target="_blank">View Functions</a>
+                <h3>🔧 Functions Reference</h3>
+                <p>Quick cheat sheet for all POSIX functions used throughout the course.</p>
+                <a class="button" href="functions.html">Open Functions</a>
             </div>
         </section>
 
-        <section id="about">
+        <section class="info">
             <h2>💡 About</h2>
-            <p>This project curates key content from the Operating Systems 234123 course at Technion. Designed to serve
-                both as a study guide and a quick-reference for POSIX system calls and core OS concepts, it supports
-                students with structured summaries and detailed function references across lectures.</p>
+            <p>This project curates core topics from the Operating Systems 234123 course at Technion - Spring 2025,
+                serving as both a
+                study guide for the exams and as a summary</p>
         </section>
 
-        <section id="contribute">
+        <section class="info">
             <h2>🤝 Contribute</h2>
-            <p>Spotted a typo? Want to suggest improvements? We welcome contributions!</p>
+            <p>Spotted a typo? Got suggestions?</p>
             <ul>
-                <li><a href="https://github.com/razi203/OS_Summary" target="_blank">View on GitHub</a></li>
-                <li>Use the form below to send a suggestion without signing in:</li>
+                <li><a href="https://github.com/Razi203/OS_Summary" target="_blank">GitHub Repository</a></li>
+                <li>Submit feedback anonymously below:</li>
             </ul>
-            <form id="feedbackForm">
-                <label for="message">Your Suggestion:</label><br>
-                <textarea id="message" name="message" rows="5" style="width:100%; margin-top:0.5rem;"
-                    required></textarea><br><br>
-
-                <button type="submit" class="submit-button" style="margin-top:1rem;">Submit Suggestion</button>
-                <p id="formStatus" style="margin-top:0.5rem;"></p>
+            <form action="https://formspree.io/f/xzzgbold" method="POST">
+                <label for="message">Your Suggestion:</label><br />
+                <textarea id="message" name="message" rows="5" required></textarea><br />
+                <button type="submit" class="button">Submit Suggestion</button>
+                <p id="formStatus"></p>
             </form>
         </section>
     </main>
 
     <footer>
-        <p>Made with ❤️ by Yara & Razi | <a href="https://github.com/razi203/OS_Summary">GitHub Repo</a></p>
+        <p>Made with ❤️ by Yara & Razi | <a href="https://github.com/Razi203/OS_Summary">GitHub</a></p>
     </footer>
 </body>
 
