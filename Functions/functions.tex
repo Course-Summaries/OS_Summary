@@ -1,11 +1,68 @@
-\documentclass[12pt]{article}
+\documentclass[openany,12pt]{book}
 \usepackage[utf8]{inputenc}
+\usepackage{etoolbox}
 \usepackage{hyperref}
 \usepackage{geometry}
 \usepackage{titlesec}
 \usepackage{fancyhdr}
+
+\usepackage{xr-hyper} % External referencing
+
 \usepackage{longtable}
+
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{colortbl}
+
 \usepackage{enumitem}
+\usepackage{amsthm}
+\newtheorem*{definition}{Definition}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+\usepackage[dvipsnames]{xcolor}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{RoyalBlue}{#1}}
+\newcommand{\gray}[1]{\textcolor{gray}{#1}}
+\newcommand{\green}[1]{\textcolor{Green}{#1}}
+\newcommand{\purple}[1]{\textcolor{Purple}{#1}}
+\newcommand{\orange}[1]{\textcolor{BurntOrange}{#1}}
+
+
+
+
+% =====================================================
+% =====================================================
+% =====================================================
+% Define new counters
+\newcounter{Topic}
+
+% Format titles to look like chapters
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries}{\chaptername\ \thechapter}{20pt}{\Huge}
+
+\newcommand{\topicchaptername}{Topic}
+
+% Custom "Topic Chapter"
+\newcommand{\Topic}[1]{%
+  \clearpage
+  \refstepcounter{Topic}
+  \renewcommand{\chaptername}{\topicchaptername}%
+  \addcontentsline{toc}{chapter}{\topicchaptername\ \theTopic: #1}
+  \chapter*{Topic \theTopic: #1}
+  \markboth{Topic\theTopic}{#1}
+}
+% =====================================================
+% =====================================================
+% =====================================================
+
+
+
+
+% =====================================================
+% ============== Listings Formats =====================
+% =====================================================
 
 \geometry{margin=1in}
 \titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
@@ -20,7 +77,20 @@
 
 \newcommand{\functionentry}[6]{%
   \noindent\rule{\linewidth}{0.5pt}
-  \subsubsection*{\texttt{#1}}
+  \subsubsection*{\blue{\large{\texttt{#1}}}}
+  \textbf{Declaration:} \texttt{#2} \\
+  \textbf{Usage/Explanation:} #3 \\
+  \textbf{Parameters:} #4 \\
+  \textbf{Return Values:} #5 \\
+  \textbf{Additional:} #6
+  \vspace{1em}
+}
+
+
+
+\newcommand{\functionentryprams}[6]{%
+  \noindent\rule{\linewidth}{0.5pt}
+  \subsubsection*{\blue{\large{\texttt{#1}}}}
   \textbf{Declaration:} \texttt{#2} \\
   \textbf{Usage/Explanation:} #3 \\
   \textbf{Parameters:}
@@ -32,32 +102,92 @@
   \vspace{1em}
 }
 
+
+
+
 \begin{document}
 
 \maketitle
 \tableofcontents
 \newpage
 
-\section{Process Management}
+
+\part{Functions Reference}
+% =====================================================
+% ======================= Topic 1 =====================
+% =====================================================
+\Topic{Process Management}
 
 \functionentry{fork}
-{pid\_t fork(void);}
-{Creates a child process by duplicating the calling process.}
-{\item None}
+{pid\_t fork();}
+{Copies the parent process to the child process and returns with the two processes.
+
+  Same code, Same memory, Same environment (files, etc.). But they are separate processes with separate memory spaces and different PIDs.}
+{None}
 {Returns 0 to child, PID of child to parent, -1 on error.}
-{\label{fork}}
+{\label{func:fork}}
+
+
 
 \functionentry{wait}
 {pid\_t wait(int *wstatus);}
-{Waits for a child process to change state.}
-{\item \texttt{wstatus}: Pointer to store child's status}
-{Returns child's PID or -1 on error.}
-{Use macros \texttt{WIFEXITED}, \texttt{WEXITSTATUS} to interpret status.\label{func:wait}}
+{Waits until \textbf{any} child process ends, suspending the calling process until a child terminates}
+{\code{wstatus}: Pointer to the variable where the exit status of the child will be stored. If NULL, no status is returned.
 
-% ... more function entries here
+  To get the value of the status, you can use macros like \red{\code{WEXITSTATUS(*wstatus)}} which return the \red{second byte} of the variable, where the exit code of the child is stored.}
+{If there are no children or all children have already terminated and waited for, it returns -1. Else waits until a child process ends and returns its PID.}
+{Can only wait for direct child!\label{func:wait}}
 
-\newpage
-\section*{Cheat Sheet}
+
+\functionentryprams{waitpid}
+{pid\_t waitpid(pid\_t pid, int *wstatus, int options);}
+{Wait until a specific child process ends.}
+{\item \code{pid}: The PID of the child process to wait for. If -1, waits for any child process.
+  \item \code{wstatus}: Pointer to an integer where the exit status of the child will be stored. If NULL, no status is returned.
+  \item \code{options}: Options for waiting, such as WNOHANG (do not block if no child has exited). default is 0, which blocks until the child exits.}
+{Returns the PID of the child that exited, or -1 on error. If WNOHANG is set and no child has exited, it returns 0.}
+{\label{func:waitpid}}
+
+
+
+
+\functionentry{exit}
+{void exit(int status);}
+{Terminates the calling process and releases all of its recourses. The process becomes \textit{zombie} until its parent process requests to check its termination \gray{(e.g. wait())} and then clears completely.}
+{\code{status}: The exit status of the process which is returned to the parent process when checked.}
+{No return value. The process is terminated immediately, and \red{will never fail}.}
+{The \code{main()} is not in fact the main function of the process, it is wrapped by \green{\code{int \_\_libc\_start\_main()}} who collects the return value of \code{main()} and calls \code{exit()} with it. This is why we don't use \code{exit()} in \code{main()} but rather return from it usually $\Longrightarrow$ \code{exit} is always called.\label{func:exit}}
+
+
+
+\functionentryprams{execv}
+{int execv(const char *filename, char *const argv[]);}
+{Replaces the current running process code with a new program. (same PID,PPID but different code and memory).}
+{\item \code{filename}: The path to the file containing the program to execute.
+  \item \code{argv}: An array of pointers to null-terminated strings containing the parameters to pass to the new program. The first element is the name of the process, i.e. \code{argv[0]=filename}. The last argument \red{must be \code{NULL}} to indicate the end of the array.}
+{Returns -1 on error, and does not return on success as the current process is replaced by the new program.}
+{The \code{execv()} function is one of the \textit{exec} family of functions, which replace the current process image with a new process image. \underline{It does not create a new process;} \underline{it replaces the current one}. The \code{v} stands for the array of arguments, \code{p} is for searching in the \code{PATH} environment variable for the filename. \label{func:execv}}
+
+
+
+\functionentry{getpid, getppid}
+{pid\_t getpid();\\ pid\_t getppid();}
+{\code{getpid()} returns the PID of the calling process, and \code{getppid()} returns the PID of the parent process \gray{(not real parent)}.}
+{None}
+{Returns the PID of the calling process or its parent accordingly.}
+{\label{func:getpid}}
+
+
+
+
+
+
+
+
+
+
+
+\part{Cheat Sheet}
 \begin{longtable}{|l|p{11cm}|}
   \hline
   \textbf{Function} & \textbf{Summary}                                                \\

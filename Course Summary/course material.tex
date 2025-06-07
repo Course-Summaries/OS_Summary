@@ -12,18 +12,24 @@
 
 \usepackage{array}
 \usepackage{booktabs}
-\usepackage{xcolor}
 \usepackage{listings}
 \usepackage{colortbl}
+\usepackage{graphicx}
 
 \usepackage{enumitem}
 \usepackage{amsthm}
 \newtheorem*{definition}{Definition}
 
 \newcommand{\code}[1]{\texttt{#1}}
+
+\usepackage[dvipsnames]{xcolor}
 \newcommand{\red}[1]{\textcolor{red}{#1}}
-\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\blue}[1]{\textcolor{RoyalBlue}{#1}}
 \newcommand{\gray}[1]{\textcolor{gray}{#1}}
+\newcommand{\green}[1]{\textcolor{Green}{#1}}
+\newcommand{\purple}[1]{\textcolor{Purple}{#1}}
+\newcommand{\orange}[1]{\textcolor{BurntOrange}{#1}}
+
 
 
 % =====================================================
@@ -46,35 +52,54 @@
 % =====================================================
 % =====================================================
 % =====================================================
-% Define new counters
-\newcounter{lecture}
-\newcounter{tutorial}
+% % Define new counters
+% \newcounter{lecture}
+% \newcounter{tutorial}
+
+% % Format titles to look like chapters
+% \titleformat{\chapter}[display]
+%   {\normalfont\Huge\bfseries}{\chaptername\ \thechapter}{20pt}{\Huge}
+
+% \newcommand{\lecturechaptername}{Lecture}
+% \newcommand{\tutorialchaptername}{Tutorial}
+
+% % Custom "Lecture Chapter"
+% \newcommand{\lecture}[1]{%
+%   \clearpage
+%   \refstepcounter{lecture}
+%   \renewcommand{\chaptername}{\lecturechaptername}%
+%   \addcontentsline{toc}{chapter}{Lecture \thelecture: #1}
+%   \chapter*{Lecture \thelecture: #1}
+%   \markboth{Lecture \thelecture}{#1}
+% }
+
+% % Custom "Tutorial Chapter"
+% \newcommand{\tutorial}[1]{%
+%   \clearpage
+%   \refstepcounter{tutorial}
+%   \renewcommand{\chaptername}{\tutorialchaptername}%
+%   \addcontentsline{toc}{chapter}{Tutorial \thetutorial: #1}
+%   \chapter*{Tutorial \thetutorial: #1}
+%   \markboth{Tutorial \thetutorial}{#1}
+% }
+
+
+\newcounter{Topic}
 
 % Format titles to look like chapters
 \titleformat{\chapter}[display]
   {\normalfont\Huge\bfseries}{\chaptername\ \thechapter}{20pt}{\Huge}
 
-\newcommand{\lecturechaptername}{Lecture}
-\newcommand{\tutorialchaptername}{Tutorial}
+\newcommand{\topicchaptername}{Topic}
 
-% Custom "Lecture Chapter"
-\newcommand{\lecture}[1]{%
+% Custom "Topic Chapter"
+\newcommand{\Topic}[1]{%
   \clearpage
-  \refstepcounter{lecture}
-  \renewcommand{\chaptername}{\lecturechaptername}%
-  \addcontentsline{toc}{chapter}{Lecture \thelecture: #1}
-  \chapter*{Lecture \thelecture: #1}
-  \markboth{Lecture \thelecture}{#1}
-}
-
-% Custom "Tutorial Chapter"
-\newcommand{\tutorial}[1]{%
-  \clearpage
-  \refstepcounter{tutorial}
-  \renewcommand{\chaptername}{\tutorialchaptername}%
-  \addcontentsline{toc}{chapter}{Tutorial \thetutorial: #1}
-  \chapter*{Tutorial \thetutorial: #1}
-  \markboth{Tutorial \thetutorial}{#1}
+  \refstepcounter{Topic}
+  \renewcommand{\chaptername}{\topicchaptername}%
+  \addcontentsline{toc}{chapter}{\topicchaptername\ \theTopic: #1}
+  \chapter*{Topic \theTopic: #1}
+  \markboth{Topic\theTopic}{#1}
 }
 % =====================================================
 % =====================================================
@@ -108,7 +133,7 @@
 % ================== Lecture 1 ========================
 % =====================================================
 
-\lecture{Introduction}
+\Topic{Introduction}
 
 \begin{definition}[Operating System (OS)]
     An Operating System's job is:
@@ -188,14 +213,18 @@ Notable services provided by an OS:
 % ================== Lecture 2 ========================
 % =====================================================
 
-\lecture{Processes \& Signals}
+\Topic{Processes \& Signals}
 \section*{Processes}
 Each process is an instance of a program in execution, which includes:
 \begin{itemize}
     \item \textbf{Program code:} The actual code of the program.
     \item \textbf{Process state:} The current state of the process, including the program counter, registers, and memory management information.
     \item \textbf{Process control block (PCB):} A data structure used by the OS to manage the process, containing information such as process ID, process state, CPU registers, memory management information, and I/O status information.\\
-          A process \underline{doesn't have direct access to its PCB}, it is managed by the OS, i.e. needs privilege level 0 (kernel mode) to access it.
+          A process \underline{doesn't have direct access to its PCB}, it is managed by the OS (kernel space), i.e. needs privilege level 0 (kernel mode) to access it.
+
+          Each PCB contains: \code{real\_parent}, \code{parent}, \code{children}, \code{siblings},...\\
+          Each process has a \code{task\_struct current} pointer to its PCB.
+
     \item \textbf{Process resources:} The resources allocated to the process, such as memory, file descriptors, and network sockets.
     \item \textbf{Process ID (PID):} A unique identifier assigned to each process by the OS. The PID is used by the OS to manage the process and is used in system calls to refer to the process.
 \end{itemize}
@@ -210,6 +239,14 @@ Each process is an instance of a program in execution, which includes:
         \item \textbf{Zombie:} The process has terminated but its PCB is still in the system, waiting for the parent process to read its exit status. In this state, the process has released almost all of its resources, but \textcolor{blue}{the PCB is still in the system}.
     \end{itemize}
 \end{definition}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{../Assets/process_states.png}
+    \caption{Process States}
+    \label{fig:process_states}
+\end{figure}
 
 
 As we saw in "ATAM", each process can only access a certain set of utilites and functions, those who require privilege level 3 (user mode). So to access the OS services, a process must use \textbf{system calls} which are functions provided by the OS that allow processes to request services from the OS. System calls are typically implemented in the OS kernel and provide a controlled interface for processes to interact with the OS.
@@ -352,7 +389,7 @@ A process can block signals using the \texttt{sigprocmask()} system call, which 
 % =====================================================
 % ================== Lecture 3 ========================
 % =====================================================
-\lecture{IPC - Inter-Process Communication}
+\Topic{IPC - Inter-Process Communication}
 
 
 
