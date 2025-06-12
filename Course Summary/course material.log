@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.8.21)  7 JUN 2025 16:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.8.21)  12 JUN 2025 15:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -259,25 +259,32 @@ Package graphics Info: Driver file: pdftex.def on input line 106.
 )
 \Gin@req@height=\dimen178
 \Gin@req@width=\dimen179
+) (c:/texlive/2024/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count297
+\float@exts=\toks25
+\float@box=\box57
+\@float@everytoks=\toks26
+\@floatcapt=\box58
 ) (c:/texlive/2024/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
 \labelindent=\skip66
 \enit@outerparindent=\dimen180
-\enit@toks=\toks25
-\enit@inbox=\box57
-\enit@count@id=\count297
-\enitdp@description=\count298
+\enit@toks=\toks27
+\enit@inbox=\box59
+\enit@count@id=\count298
+\enitdp@description=\count299
 ) (c:/texlive/2024/texmf-dist/tex/latex/amscls/amsthm.sty
 Package: amsthm 2020/05/29 v2.20.6
-\thm@style=\toks26
-\thm@bodyfont=\toks27
-\thm@headfont=\toks28
-\thm@notefont=\toks29
-\thm@headpunct=\toks30
+\thm@style=\toks28
+\thm@bodyfont=\toks29
+\thm@headfont=\toks30
+\thm@notefont=\toks31
+\thm@headpunct=\toks32
 \thm@preskip=\skip67
 \thm@postskip=\skip68
 \thm@headsep=\skip69
-\dth@everypar=\toks31
+\dth@everypar=\toks33
 ) (c:/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2023/11/15 v3.01 LaTeX color extensions (UK)
  (c:/texlive/2024/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -298,33 +305,33 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1373.
 ) (c:/texlive/2024/texmf-dist/tex/latex/graphics/dvipsnam.def
 File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
 )
-\c@Topic=\count299
+\c@Topic=\count300
  (c:/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count300
-\l__pdf_internal_box=\box58
+\l__color_backend_stack_int=\count301
+\l__pdf_internal_box=\box60
 ) (./course material.aux)
 \openout1 = `"course material.aux"'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-Package hyperref Info: Link coloring OFF on input line 112.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+Package hyperref Info: Link coloring OFF on input line 113.
  (./course material.out) (./course material.out)
 \@outlinefile=\write3
 \openout3 = `"course material.out"'.
@@ -364,20 +371,20 @@ Package hyperref Info: Link coloring OFF on input line 112.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@lstlisting=\count301
+\c@lstlisting=\count302
 (c:/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count302
+\scratchcounter=\count303
 \scratchdimen=\dimen181
-\scratchbox=\box59
-\nofMPsegments=\count303
-\nofMParguments=\count304
-\everyMPshowfont=\toks32
-\MPscratchCnt=\count305
+\scratchbox=\box61
+\nofMPsegments=\count304
+\nofMParguments=\count305
+\everyMPshowfont=\toks34
+\MPscratchCnt=\count306
 \MPscratchDim=\dimen182
-\MPnumerator=\count306
-\makeMPintoPDFobject=\count307
-\everyMPtoPDFconversion=\toks33
+\MPnumerator=\count307
+\makeMPintoPDFobject=\count308
+\everyMPtoPDFconversion=\toks35
 ) (c:/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -385,9 +392,9 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 115.
+(Font)              <14.4> on input line 116.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 115.
+(Font)              <7> on input line 116.
 
 
 [1
@@ -432,21 +439,27 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [5]
-Overfull \hbox (2.97083pt too wide) in paragraph at lines 222--224
-\OT1/cmr/m/n/12 A pro-cess $[]$, it is man-aged by the OS (ker-nel space),
+Underfull \hbox (badness 2529) in paragraph at lines 229--231
+[]\OT1/cmr/m/n/12 Each PCB con-tains: \OT1/cmtt/m/n/12 real[]parent\OT1/cmr/m/n/12 , \OT1/cmtt/m/n/12 parent\OT1/cmr/m/n/12 ,
  []
 
-<../Assets/process_states.png, id=67, 2366.08969pt x 1290.32062pt>
-File: ../Assets/process_states.png Graphic file (type png)
-<use ../Assets/process_states.png>
-Package pdftex.def Info: ../Assets/process_states.png  used on input line 246.
-(pdftex.def)             Requested size: 375.80544pt x 204.93948pt.
+<../Assets/process_memory.png, id=67, 721.19438pt x 831.105pt>
+File: ../Assets/process_memory.png Graphic file (type png)
+<use ../Assets/process_memory.png>
+Package pdftex.def Info: ../Assets/process_memory.png  used on input line 239.
+(pdftex.def)             Requested size: 164.41711pt x 189.46347pt.
 
 
 [6
 
 
-]
+ <../Assets/process_memory.png>]
+<../Assets/process_states.png, id=75, 2366.08969pt x 1290.32062pt>
+File: ../Assets/process_states.png Graphic file (type png)
+<use ../Assets/process_states.png>
+Package pdftex.def Info: ../Assets/process_states.png  used on input line 258.
+(pdftex.def)             Requested size: 375.80544pt x 204.93948pt.
+
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -455,7 +468,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[7 <../Assets/process_states.png>]
+[7
+pdfTeX warning (ext4): destination with the same identifier (name{figure.0.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.279     \item \texttt
+                       {exec()}: Replaces the current process image with a n... <../Assets/process_states.png>]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -475,9 +493,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [9]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 332.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 341.
 
-Overfull \hbox (8.86264pt too wide) in paragraph at lines 362--382
+Overfull \hbox (8.86264pt too wide) in paragraph at lines 371--391
  [] 
  []
 
@@ -500,11 +518,22 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [11]
+<../Assets/thread_stack.png, id=108, 1298.60156pt x 931.98187pt>
+File: ../Assets/thread_stack.png Graphic file (type png)
+<use ../Assets/thread_stack.png>
+Package pdftex.def Info: ../Assets/thread_stack.png  used on input line 414.
+(pdftex.def)             Requested size: 211.38832pt x 151.70834pt.
+
+Underfull \hbox (badness 6063) in paragraph at lines 419--420
+[] []\OT1/cmr/bx/n/12 Threads[] \OT1/cmr/m/n/12 A pro-cess can have mul-ti-ple
+ []
+
+
 
 [12
 
 
-]
+ <../Assets/thread_stack.png>]
 
 [13
 
@@ -521,18 +550,18 @@ Package rerunfilecheck Info: File `"course material".out' has not changed.
 (rerunfilecheck)             Checksum: 4376003B8478A113E95872C0EB593830;1102.
  ) 
 Here is how much of TeX's memory you used:
- 12187 strings out of 473579
- 186808 string characters out of 5732263
+ 12262 strings out of 473579
+ 188221 string characters out of 5732263
  1938960 words of memory out of 5000000
- 34903 multiletter control sequences out of 15000+600000
- 564617 words of font info for 58 fonts, out of 8000000 for 9000
+ 34975 multiletter control sequences out of 15000+600000
+ 564449 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,80p,726b,557s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on "course material.pdf" (14 pages, 421176 bytes).
+ 75i,11n,80p,726b,559s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on "course material.pdf" (14 pages, 587386 bytes).
 PDF statistics:
- 174 PDF objects out of 1000 (max. 8388607)
- 136 compressed objects within 2 object streams
+ 173 PDF objects out of 1000 (max. 8388607)
+ 133 compressed objects within 2 object streams
  37 named destinations out of 1000 (max. 500000)
- 54 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 64 words of extra memory for PDF output out of 10000 (max. 10000000)
 

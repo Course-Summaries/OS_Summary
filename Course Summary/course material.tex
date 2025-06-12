@@ -15,6 +15,7 @@
 \usepackage{listings}
 \usepackage{colortbl}
 \usepackage{graphicx}
+\usepackage{float}
 
 \usepackage{enumitem}
 \usepackage{amsthm}
@@ -135,15 +136,14 @@
 
 \Topic{Introduction}
 
-\begin{definition}[Operating System (OS)]
-    An Operating System's job is:
-    \begin{itemize}
-        \item Coordinate the execution of all SW, mainly user apps.
-        \item Provide various common services needed by users \& apps.
-        \item An OS of a physical server controls its physical devices, e.g. CPU, memory, disks, etc.
-        \item An OS of a virtual server only \textit{believes} it does. There's another OS underneath, called \textbf{hypervisor} which fakes it.
-    \end{itemize}
-\end{definition}
+\paragraph{Operating System (OS)}%
+An Operating System's job is:
+\begin{itemize}
+    \item Coordinate the execution of all SW, mainly user apps.
+    \item Provide various common services needed by users \& apps.
+    \item An OS of a physical server controls its physical devices, e.g. CPU, memory, disks, etc.
+    \item An OS of a virtual server only \textit{believes} it does. There's another OS underneath, called \textbf{hypervisor} which fakes it.
+\end{itemize}
 
 \vspace{1em}
 \noindent Using an OS allows us to take advantage of \textbf{\textit{"virtualization"}}:
@@ -190,11 +190,10 @@ Most importantly, an OS is \textbf{reactive}, "event-driven" system, which means
 \end{itemize}
 
 
-\begin{definition}
-    [\textbf{Multiplexing}]
-    Multiplexing is the ability of an OS to share a single resource (e.g. CPU, memory, disk) among multiple processes or threads. This allows for better utilization of resources and enables multiple applications to run concurrently.
-    *Multiprogramming  means multiplexing the CPU recourse.
-\end{definition}
+\paragraph{Multiplexing}
+Multiplexing is the ability of an OS to share a single resource (e.g. CPU, memory, disk) among multiple processes or threads. This allows for better utilization of resources and enables multiple applications to run concurrently.
+*Multiprogramming  means multiplexing the CPU recourse.
+
 
 Notable services provided by an OS:
 \begin{enumerate}
@@ -215,30 +214,43 @@ Notable services provided by an OS:
 
 \Topic{Processes \& Signals}
 \section*{Processes}
-Each process is an instance of a program in execution, which includes:
+
+\begin{center}
+    \begin{minipage}[t]{0.6\textwidth}
+        \vspace{0pt} % force top alignment
+        Each process is an instance of a program in execution, which includes:
+        \begin{itemize}
+            \item \textbf{Program code:} The actual code of the program.
+            \item \textbf{Process state:} The current state of the process, including the program counter, registers, and memory management information.
+            \item \textbf{Process control block (PCB):} A data structure used by the OS to manage the process, containing information such as process ID, process state, CPU registers, memory management information, and I/O status information.
+
+                  A process \underline{doesn't have direct access to its PCB}, it is managed by the OS (kernel space), i.e. needs privilege level 0 (kernel mode) to access it.
+
+                  Each PCB contains: \code{real\_parent}, \code{parent}, \code{children}, \code{siblings},...\\
+                  Each process has a \code{task\_struct current} pointer to its PCB.
+
+            \item \textbf{Process ID (PID):} A unique identifier assigned to each process by the OS. The PID is used by the OS to manage the process and is used in system calls to refer to the process.
+        \end{itemize}
+    \end{minipage}%
+    \hspace{1em}
+    \begin{minipage}[t]{0.35\textwidth}
+        \vspace{0pt} % force top alignment
+        \centering
+        \includegraphics[width=\linewidth]{../Assets/process_memory.png}
+    \end{minipage}
+\end{center}
+
+
+
+\paragraph{Process States}
+A process can be in one of the following states:
 \begin{itemize}
-    \item \textbf{Program code:} The actual code of the program.
-    \item \textbf{Process state:} The current state of the process, including the program counter, registers, and memory management information.
-    \item \textbf{Process control block (PCB):} A data structure used by the OS to manage the process, containing information such as process ID, process state, CPU registers, memory management information, and I/O status information.\\
-          A process \underline{doesn't have direct access to its PCB}, it is managed by the OS (kernel space), i.e. needs privilege level 0 (kernel mode) to access it.
-
-          Each PCB contains: \code{real\_parent}, \code{parent}, \code{children}, \code{siblings},...\\
-          Each process has a \code{task\_struct current} pointer to its PCB.
-
-    \item \textbf{Process resources:} The resources allocated to the process, such as memory, file descriptors, and network sockets.
-    \item \textbf{Process ID (PID):} A unique identifier assigned to each process by the OS. The PID is used by the OS to manage the process and is used in system calls to refer to the process.
+    \item \textbf{Running:} The process is currently being executed by the CPU.
+    \item \textbf{Ready:} The process is ready to be executed but is waiting for the CPU to become available.
+    \item \textbf{Waiting:} The process is waiting for an event to occur, such as I/O completion or a signal.
+    \item \textbf{Zombie:} The process has terminated but its PCB is still in the system, waiting for the parent process to read its exit status. In this state, the process has released almost all of its resources, but \textcolor{blue}{the PCB is still in the system}.
 \end{itemize}
 
-\begin{definition}
-    [\textbf{Process State}]
-    A process can be in one of the following states:
-    \begin{itemize}
-        \item \textbf{Running:} The process is currently being executed by the CPU.
-        \item \textbf{Ready:} The process is ready to be executed but is waiting for the CPU to become available.
-        \item \textbf{Waiting:} The process is waiting for an event to occur, such as I/O completion or a signal.
-        \item \textbf{Zombie:} The process has terminated but its PCB is still in the system, waiting for the parent process to read its exit status. In this state, the process has released almost all of its resources, but \textcolor{blue}{the PCB is still in the system}.
-    \end{itemize}
-\end{definition}
 
 
 \begin{figure}
@@ -281,13 +293,11 @@ In most cases, the parent process is the real parent process, but it can be diff
 
 
 
-\begin{definition}
-    [\textbf{Daemon Process}]
-    A daemon process is a background process not controlled by the user.
-    To run a process as a daemon use \code{nohup <command> \&}.
+\paragraph{Daemon Processes}
+A daemon process is a background process not controlled by the user.
+To run a process as a daemon use \code{nohup <command> \&}.
 
-    Daemon names usually end with the letter "d", e.g. \texttt{sshd} (SSH daemon), \texttt{httpd} (HTTP daemon), etc.
-\end{definition}
+Daemon names usually end with the letter "d", e.g. \texttt{sshd} (SSH daemon), \texttt{httpd} (HTTP daemon), etc.
 
 
 
@@ -295,16 +305,15 @@ In most cases, the parent process is the real parent process, but it can be diff
 % ===================================================== Signals Section
 \newpage
 \section*{Signals}
-\begin{definition}
-    [\textbf{Signal}]
-    Signals are "notifications" sent to a process to asynchronously notify it that some event has occurred.
+\paragraph{Signals}
+Signals are "notifications" sent to a process to asynchronously notify it that some event has occurred.
 
-    * Receiving a signal only occurs then returning from kernel mode, which in turn invokes the corresponding signal handler.
+* Receiving a signal only occurs then returning from kernel mode, which in turn invokes the corresponding signal handler.
 
-    ** Default signal handling actions: Either die or ignore
+** Default signal handling actions: Either die or ignore
 
-    *** In case of several signals from different types, they will be handled by the order of their definition in the signals register.
-\end{definition}
+*** In case of several signals from different types, they will be handled by the order of their definition in the signals register.
+
 
 \vspace{1em}
 
@@ -390,6 +399,33 @@ A process can block signals using the \texttt{sigprocmask()} system call, which 
 % ================== Lecture 3 ========================
 % =====================================================
 \Topic{IPC - Inter-Process Communication}
+
+
+
+\paragraph{Multiprocessing}
+Using several CPU cores (=processors) for running a single job to solve a single "problem".
+
+
+f
+\begin{center}
+    \begin{minipage}{0.45\textwidth}
+        \vspace{0pt} % force top alignment
+        \centering
+        \includegraphics[width=\linewidth]{../Assets/thread_stack.png}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \vspace{0pt} % force top alignment  
+        \paragraph{Threads}
+        A process can have multiple threads, which share (nearly) everything, including the process's memory space, file descriptors, heap, static data, code segment and more.
+
+        \hspace*{2em}However, each thread has its own stack, registers, and program counter. But they can still access each other's stack since they share the same memory space.
+    \end{minipage}
+\end{center}
+
+
+
+
+
 
 
 
