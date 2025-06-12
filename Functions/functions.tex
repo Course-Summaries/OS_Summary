@@ -21,7 +21,7 @@
 
 \newcommand{\code}[1]{\texttt{#1}}
 
-\usepackage[dvipsnames]{xcolor}
+\usepackage[dvipsnames, table]{xcolor}
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 \newcommand{\blue}[1]{\textcolor{RoyalBlue}{#1}}
 \newcommand{\gray}[1]{\textcolor{lightgray}{#1}}
@@ -207,7 +207,8 @@
 {Since there is no signal with the number 0, it is used to check if the process exists or not. If the process exists, it returns 0, else it returns -1. \gray{(e.g. \code{kill(<pid>,0)})}.\label{func:kill}}
 
 \functionEntryPar{signal}
-{sighandler\_t signal(int signum, sighandler\_t handler); \gray{typedef sighandler\_t void (*sighandler\_t)(int);}}
+{sighandler\_t signal(int signum, sighandler\_t handler);\\
+  \hspace*{10em}\gray{typedef sighandler\_t void (*sighandler\_t)(int);}}
 {Sets a signal handler for the specified signal \code{signum}.}
 {\item \code{signum}: The signal number to set the handler for. \gray{(e.g. \code{SIGINT}, \code{SIGTERM}, etc.)}.
   \item \code{handler}: The function to call when the signal is received. If \code{handler} is \code{SIG\_IGN}, the signal is ignored. If \code{handler} is \code{SIG\_DFL}, the default action for the signal is restored.}
@@ -328,15 +329,55 @@
 
 
 
+
+
+
+
+
 \part{Cheat Sheet}
-\begin{longtable}{|l|p{11cm}|}
+
+
+\begin{center}
+  \textbf{Function Summary Cheat Sheet}
+\end{center}
+\vspace{-2em}
+
+\renewcommand{\arraystretch}{1.2} % Adjust row height
+\rowcolors{2}{gray!10}{white}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{12cm}|}
   \hline
-  \textbf{Function} & \textbf{Summary}                                                \\
+  \rowcolor{RoyalBlue!25}
+  \textbf{Function} & \textbf{Summary}                                                                                  \\
+  \endfirsthead
+
   \hline
-  \code{fork()}     & Creates a new child process, identical to the parent initially. \\
-  \code{wait()}     & Suspends execution until a child process ends.                  \\
-  % Add more functions here
+  \textbf{Function} & \textbf{Summary}                                                                                  \\
+  \endhead
+
+  \hline
+  \code{fork()}     & Creates a child process identical to the parent. Returns 0 to child, PID to parent, -1 on error.  \\
+  \code{wait()}     & Suspends the process until a child ends. Stores exit status in provided pointer.                  \\
+  \code{waitpid()}  & Waits for a specific child to finish. Can use options like \code{WNOHANG}.                        \\
+  \code{exit()}     & Terminates the calling process with a status code. Becomes a zombie until parent collects status. \\
+  \code{execv()}    & Replaces the current process image with a new one using the provided filename and argument array. \\
+  \code{getpid()}   & Returns the PID of the current process.                                                           \\
+  \code{getppid()}  & Returns the PID of the parent process.                                                            \\
+  \code{kill()}     & Sends a signal to a process by PID. Signal 0 used to check process existence.                     \\
+  \code{signal()}   & Sets a signal handler for a given signal number.                                                  \\
+  \code{open()}     & Opens a file with specified flags and permissions.                                                \\
+  \code{close()}    & Closes a file descriptor.                                                                         \\
+  \code{read()}     & Reads up to \code{count} bytes from a file descriptor into a buffer.                              \\
+  \code{write()}    & Writes up to \code{count} bytes from a buffer to a file descriptor.                               \\
+  \code{pipe()}     & Creates a unidirectional pipe with two FDs: one for reading, one for writing.                     \\
+  \code{dup()}      & Duplicates an existing file descriptor, returns a new one.                                        \\
+  \code{dup2()}     & Duplicates an FD to a specific new FD, closing the new FD first if open.                          \\
+  \code{mkfifo()}   & Creates a named FIFO (pipe) with given pathname and mode.                                         \\
   \hline
 \end{longtable}
 
+
+
+
 \end{document}
+
+

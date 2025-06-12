@@ -15,5 +15,15 @@
 \contentsline {chapter}{Topic\ 3: IPC - Inter-Process Communication}{12}{Topic.3}%
 \contentsline {paragraph}{Multiprocessing}{12}{chapter*.4}%
 \contentsline {paragraph}{Threads}{12}{chapter*.4}%
-\contentsline {part}{II\hspace {1em}Overall Summary}{13}{part.2}%
-\contentsline {part}{III\hspace {1em}Highlights and Notes}{14}{part.3}%
+\contentsline {paragraph}{OpenMP}{13}{chapter*.4}%
+\contentsline {paragraph}{Pthreads}{13}{lstnumber.-1.4}%
+\contentsline {paragraph}{File Descriptors}{13}{lstnumber.-1.4}%
+\contentsline {paragraph}{Pipes}{13}{lstnumber.-1.4}%
+\contentsline {paragraph}{Context Switching}{14}{lstnumber.-1.4}%
+\contentsline {paragraph}{Context Switch Overhead}{14}{lstnumber.-1.4}%
+\contentsline {paragraph}{Cashing}{14}{lstnumber.-1.4}%
+\contentsline {paragraph}{Copy-on-Write (COW)}{14}{lstnumber.-1.4}%
+\contentsline {paragraph}{User Level Threads (ULTs)}{14}{lstnumber.-1.4}%
+\contentsline {chapter}{Topic\ 4: Scheduling}{15}{Topic.4}%
+\contentsline {part}{II\hspace {1em}Overall Summary}{16}{part.2}%
+\contentsline {part}{III\hspace {1em}Highlights and Notes}{17}{part.3}%

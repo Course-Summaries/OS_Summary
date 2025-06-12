@@ -10,21 +10,55 @@
 % \externaldocument[func:]{../Functions/functions} % Path to functions.aux
 
 
-\usepackage{array}
-\usepackage{booktabs}
-\usepackage{listings}
 \usepackage{colortbl}
 \usepackage{graphicx}
 \usepackage{float}
 
+\usepackage{soul}
+
 \usepackage{enumitem}
+
+
+\usepackage{array}
+\usepackage{booktabs}
+
+\usepackage{listings}
+\lstset{
+    language=C++,
+    basicstyle=\ttfamily\footnotesize,     % the size of the fonts used for the code
+    keywordstyle=\color{blue}\bfseries,    % keywords
+    ndkeywordstyle=\color{magenta},        % more keywords like types (int, char, etc.)
+    identifierstyle=\color{black},         % variable names
+    commentstyle=\color{gray}\itshape,     % comments
+    stringstyle=\color{teal},              % strings
+    numberstyle=\tiny\color{gray},         % line numbers
+    numbers=left,                          % line number position
+    numbersep=8pt,                         % distance of line numbers from code
+    backgroundcolor=\color{white},         % background color
+    showspaces=false,                      % show spaces (only for debugging)
+    showstringspaces=false,                % underline spaces in strings?
+    showtabs=false,                        % show tabs (only for debugging)
+    tabsize=4,                             % tab space width
+    breaklines=true,                       % automatic line breaking
+    breakatwhitespace=true,                % only break at whitespace
+    % frame=lines,                           % draw a frame at the top and bottom
+    captionpos=b,                          % caption position
+    escapeinside={(*@}{@*)},               % for LaTeX escapes
+    morekeywords={nullptr, size_t, uint32_t, int32_t, override, final, constexpr, noexcept},
+    columns=fullflexible,                  % better alignment
+    keepspaces=true                        % keep spaces in text, useful for indentation
+}
+
+
+
+
 \usepackage{amsthm}
 \newtheorem*{definition}{Definition}
 
 \newcommand{\code}[1]{\texttt{#1}}
 
 \usepackage[dvipsnames]{xcolor}
-\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\red}[1]{\textcolor{Red}{#1}}
 \newcommand{\blue}[1]{\textcolor{RoyalBlue}{#1}}
 \newcommand{\gray}[1]{\textcolor{gray}{#1}}
 \newcommand{\green}[1]{\textcolor{Green}{#1}}
@@ -224,7 +258,7 @@ Notable services provided by an OS:
             \item \textbf{Process state:} The current state of the process, including the program counter, registers, and memory management information.
             \item \textbf{Process control block (PCB):} A data structure used by the OS to manage the process, containing information such as process ID, process state, CPU registers, memory management information, and I/O status information.
 
-                  A process \underline{doesn't have direct access to its PCB}, it is managed by the OS (kernel space), i.e. needs privilege level 0 (kernel mode) to access it.
+                  A process \ul{doesn't have direct access to its PCB}, it is managed by the OS (kernel space), i.e. needs privilege level 0 (kernel mode) to access it.
 
                   Each PCB contains: \code{real\_parent}, \code{parent}, \code{children}, \code{siblings},...\\
                   Each process has a \code{task\_struct current} pointer to its PCB.
@@ -248,7 +282,7 @@ A process can be in one of the following states:
     \item \textbf{Running:} The process is currently being executed by the CPU.
     \item \textbf{Ready:} The process is ready to be executed but is waiting for the CPU to become available.
     \item \textbf{Waiting:} The process is waiting for an event to occur, such as I/O completion or a signal.
-    \item \textbf{Zombie:} The process has terminated but its PCB is still in the system, waiting for the parent process to read its exit status. In this state, the process has released almost all of its resources, but \textcolor{blue}{the PCB is still in the system}.
+    \item \textbf{Zombie:} The process has terminated but its PCB is still in the system, waiting for the parent process to read its exit status. In this state, the process has released almost all of its resources, but \blue{the PCB is still in the system}.
 \end{itemize}
 
 
@@ -266,7 +300,7 @@ As we saw in "ATAM", each process can only access a certain set of utilites and 
 \vspace{1em}
 
 Each \textit{syscall}, in case of an error, will change the \texttt{errno} variable to indicate the error type. The \texttt{errno} variable is a global variable that is set by system calls and some library functions in the event of an error to indicate what went wrong. It is defined in the header file \texttt{errno.h}. {\color{blue}\textbf{Note:} \texttt{errno} is not reset to 0 after a successful syscall, so it must be checked immediately after the syscall, and be reset before usage if need be} (if there is not any other way to make sure there is an error indeed).\\
-i.e. \texttt{errno = <Number of Last Syscall Error>;}
+i.e. \code{errno = <Number of Last Syscall Error>;}
 
 \vspace{1em}
 
@@ -400,13 +434,13 @@ A process can block signals using the \texttt{sigprocmask()} system call, which 
 % =====================================================
 \Topic{IPC - Inter-Process Communication}
 
+\section*{Threads \& IPC}
 
 
 \paragraph{Multiprocessing}
 Using several CPU cores (=processors) for running a single job to solve a single "problem".
 
 
-f
 \begin{center}
     \begin{minipage}{0.45\textwidth}
         \vspace{0pt} % force top alignment
@@ -422,9 +456,131 @@ f
     \end{minipage}
 \end{center}
 
+Note that \blue{\textit{Global/Static Variables \& Dynamically Allocated Memory}} are shared between threads since they are stored in the Static Data Segment and the Heap, respectively, which are shared between all threads of a process. However, \red{\textit{Local Variables}} are not shared between threads since they are stored in the stack, which is unique to each thread.
+
+
+\begin{samepage}
+    \begin{center}
+        \rowcolors{2}{gray!15}{white}
+        \begin{tabular}{|>{\raggedright\arraybackslash}p{6cm}|
+            >{\centering\arraybackslash}p{4cm}|
+            >{\centering\arraybackslash}p{4cm}|}
+            \hline
+            \rowcolor{blue!30}
+                                             & \textbf{Unique to Process} & \textbf{Unique to pthread} \\
+            \hline
+            Registers (notably PC)           & Y                          & Y                          \\
+            Execution stack                  & Y                          & Y                          \\
+            Memory address space             & Y                          & \red{N}                    \\
+            Open files                       & Y                          & \red{N}                    \\
+            Per-open-file position (=offset) & Y                          & \red{N}                    \\
+            Working directory                & Y                          & \red{N}                    \\
+            User/group credentials           & Y                          & \red{N}                    \\
+            Signal handling                  & Y                          & \red{N}                    \\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{samepage}
+
+
+\newpage
+\paragraph{OpenMP} Open Multi-Processing (OpenMP) consists of a set of compiler \textit{'pragma'} directives that allows the compiler to generate multi-threaded code for parallel execution.
+
+\begin{center}
+    \begin{minipage}{0.9\textwidth}
+        \begin{lstlisting}
+    #pragma omp parallel for
+    for (i = 0; i < N; i++) {
+            arr[i] = 2*i;
+    } \end{lstlisting}
+    \end{minipage}
+\end{center}
+
+
+\paragraph{Pthreads} POSIX threads (pthreads) is a standard for multi-threading in C/C++. It provides a set of functions to create and manage threads, as well as to synchronize them. \gray{(More details in the functions reference)}
 
 
 
+\paragraph{File Descriptors} A non-negative integer representing an I/O "channel" on some device. File descriptors are saved in the process's \code{PCB} inside the \code{FDT} (File Descriptor Table), which is an array of pointers to \textit{file objects}, each representing an open file or device. So in fact, an FD is an index to a kernel array of channels.
+
+Processes \red{don't} share \code{PCB} nor \code{FDT} but they \blue{can share file descriptors}, i.e. two processes can have the same file descriptor pointing to the same file object, which allows them to share the same open file or device. Upon forking, the child process inherits a copy of the parent's \code{FDT}. \blue{Note:} Threads \blue{do} share the same \code{FDT}.
+
+
+
+\paragraph{Pipes} A pipe is a unidirectional communication channel between two processes, allowing one process to send data to another. Pipes are a pair of two file descriptors \code{int pipe\_fd[2]}. Each integer is a handle to a kernel communication object, \ul{which is a buffer that holds the data being sent between the two processes}.
+\begin{itemize}
+    \item \code{pipe\_fd[0]} = read side of the communication channel.
+    \item \code{pipe\_fd[1]} = write side of the communication channel.
+    \item Everything written via \code{pipe\_fd[1]} can be read via \code{pipe\_fd[0]}.
+    \item \red{Blocking}: If the read side is empty, the read operation will block until data is written to the write side. If the write side is full, the write operation will block until space is available.
+    \item \red{\code{SIGPIPE}}: Writing to a pipe whose read end is \code{close()}d will result in a \code{SIGPIPE} signal.
+\end{itemize}
+
+
+
+\begin{samepage}
+    \begin{center}
+        \rowcolors{2}{gray!15}{white}
+        \begin{tabular}{|>{\raggedright\arraybackslash}p{4cm}|
+            >{\raggedright\arraybackslash}p{6cm}|
+            >{\raggedright\arraybackslash}p{5cm}|}
+            \hline
+            \rowcolor{blue!30}
+            \textbf{Multi-tasking} & \textbf{Multi-programming} & \textbf{Multi-processing} \\
+            \hline
+            Having multiple processes \textit{time slice} on the same CPU core.
+                                   &
+            Having \textit{multiple jobs} in the system (either on the same core or on different cores). \gray{i.e. the existence of multiple processes in the system, regardless of whether they are running on the same core or not.}
+                                   &
+            Using \textit{multiple processors (CPU cores) for the same job} in parallel. \gray{i.e. creating multiple threads to run on different cores for the same process.}
+            \\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{samepage}
+
+
+
+
+
+\newpage
+\section*{Intro. Context Switching \& Caching}
+\paragraph{Context Switching} is the process of saving the state of a currently running process and restoring the state of another process to allow it to run. This is done by the OS kernel and is necessary for multitasking, allowing multiple processes to share the CPU.
+\begin{itemize}
+    \item \textbf{Context} = the state of a process, including its registers, program counter, stack pointer, and memory management information.
+    \item \textbf{Context Switch} = the process of saving the context of the currently running process and restoring the context of another process.
+\end{itemize}
+
+\paragraph{Context Switch Overhead} consists of two components:
+\begin{itemize}
+    \item \textbf{Direct Overhead:} The measurable time it takes to perform the context switch, which includes saving the current process's state and restoring the next process's state.
+    \item \textbf{Indirect Overhead:} The time it takes for the CPU to cache the new process's data, which can be significant if the new process's data is not already in the CPU cache.
+\end{itemize}
+
+\paragraph{Cashing} The CPU cache is a small, fast memory that stores frequently accessed data to speed up access times. The Cache allows the CPU access to a fast memory that is closer to the CPU than the main memory (DRAM), and a larger one than the CPU registers. The cache works because of the \blue{\textit{Principle of Locality}}:
+\begin{itemize}
+    \item \textbf{Temporal Locality:} If at one point in time a particular memory location is referenced, then it is likely that the same location will be referenced again soon.
+    \item \textbf{Spatial Locality:} If a particular memory location is referenced at a particular time, then it is likely that nearby memory locations will be referenced soon.
+\end{itemize}
+
+
+
+\paragraph{Copy-on-Write (COW)} The \code{fork()} system call creates a copy of the address space of the parent, but:
+\begin{itemize}
+    \item It only creates a \textit{logical} copy.
+    \item There is no physical duplication of the memory pages, until we really need to write to them (from either process). And even then, only the page that is being written to is duplicated. \gray{(More details in the virutal memory lectures)}
+\end{itemize}
+
+
+\paragraph{User Level Threads (ULTs)} are threads that are managed by the user-level library, rather than the OS kernel. ULTs are not visible to the OS, which means that the OS does not know about them and does not schedule them. This allows for faster context switching between ULTs, but it also means that the OS cannot take advantage of multiple CPU cores to run ULTs in parallel.
+
+The usage of ULTs is mainly for concurrent programming, where we want multiple multiple tasks to progress in parallel without the overhead of kernel-level threads.
+
+
+
+
+\newpage
+\Topic{Scheduling}
 
 
 
