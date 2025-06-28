@@ -1,4 +1,0 @@
-\contentsline {part}{I\hspace {1em}Functions Reference}{3}{part.1}%
-\contentsline {chapter}{Topic\ 1: Process Management}{4}{Topic.1}%
-\contentsline {chapter}{Topic\ 2: IPC \& I/O}{7}{Topic.2}%
-\contentsline {part}{II\hspace {1em}Cheat Sheet}{12}{part.2}%
