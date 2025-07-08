@@ -19,6 +19,10 @@
 </head>
 
 <body>
+    <!-- Background Elements -->
+    <canvas id="bg-canvas"></canvas>
+    <div class="aurora-background"></div>
+
     <!-- Custom Cursor Elements -->
     <div class="cursor"></div>
     <div class="cursor-dot"></div>
@@ -60,17 +64,21 @@
                 <div class="materials-grid">
                     <div class="material-card" data-pdf-title="📘 Course Summary"
                         data-pdf-url="https://github.com/Course-Summaries/OS-Summary-PDF/releases/latest/download/course.material.pdf">
-                        <h3>📘 Course Summary</h3>
-                        <p>Detailed overview of lectures, core concepts, and system principles. Your go-to guide for
-                            exam preparation.</p>
-                        <button class="button">Open Summary</button>
+                        <div class="card-content">
+                            <h3>📘 Course Summary</h3>
+                            <p>Detailed overview of lectures, core concepts, and system principles. Your go-to guide for
+                                exam preparation.</p>
+                            <span class="button">Open Summary</span>
+                        </div>
                     </div>
                     <div class="material-card" data-pdf-title="🔧 Functions Reference"
                         data-pdf-url="https://github.com/Course-Summaries/OS-Summary-PDF/releases/latest/download/functions.pdf">
-                        <h3>🔧 Functions Reference</h3>
-                        <p>A quick cheat sheet for all POSIX functions used throughout the course. Perfect for labs and
-                            assignments.</p>
-                        <button class="button">Open Reference</button>
+                        <div class="card-content">
+                            <h3>🔧 Functions Reference</h3>
+                            <p>A quick cheat sheet for all POSIX functions used throughout the course. Perfect for labs
+                                and assignments.</p>
+                            <span class="button">Open Reference</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,6 +143,9 @@
                     to view it directly</a>.</p>
         </div>
     </div>
+
+    <!-- Third-party Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <!-- Your Script File -->
     <script src="script.js"></script>
