@@ -5,92 +5,125 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Operating Systems | Course Companion</title>
+
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css" />
-    <script defer src="script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Your Stylesheet -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <!-- Custom Cursor Elements -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
 
-    <div class="background-pattern"></div>
-
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <h2 class="course-number">02340123</h2>
-                <h1>Operating Systems</h1>
-                <p class="subtitle">A companion for the Spring 2025 course at Technion,</p>
-                <p class="subtitle">by Razi & Yara.</p>
-            </div>
+    <!-- Header & Navigation -->
+    <header class="main-header" id="main-header">
+        <div class="container nav-container">
+            <a href="#" class="logo">OS<span>.</span>Companion</a>
+            <nav class="main-nav" id="main-nav">
+                <ul>
+                    <li><a href="#materials" class="nav-link">Materials</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#feedback" class="nav-link">Contribute</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Open Menu">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 
-    <main class="container">
-        <section id="materials" class="content-section">
-            <h2 class="section-title">Course Materials</h2>
-            <div class="grid">
-                <div class="card" data-pdf-title="📘 Course Summary"
-                    data-pdf-url="https://github.com/Course-Summaries/OS-Summary-PDF/releases/latest/download/course.material.pdf">
-                    <h3>📘 Course Summary</h3>
-                    <p>Detailed overview of lectures, core concepts, and system principles.</p>
-                    <button class="button">Open Summary</button>
-                </div>
-                <div class="card" data-pdf-title="🔧 Functions Reference"
-                    data-pdf-url="https://github.com/Course-Summaries/OS-Summary-PDF/releases/latest/download/functions.pdf">
-                    <h3>🔧 Functions Reference</h3>
-                    <p>A quick cheat sheet for all POSIX functions used throughout the course.</p>
-                    <button class="button">Open Functions</button>
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content fade-in-section is-visible">
+                    <p class="course-number">02340123 // SPRING 2025</p>
+                    <h1>Operating Systems</h1>
+                    <p class="subtitle">A companion for the course at Technion, thoughtfully curated by Razi & Yara.</p>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="content-section">
-            <h2 class="section-title">💡 About This Project</h2>
-            <p>This project curates core topics from the Operating Systems (234123) course, serving as a study guide and
-                a quick reference. Our goal is to provide a clean, accessible, and helpful resource for our classmates.
-            </p>
+        <!-- Materials Section -->
+        <section id="materials" class="content-section fade-in-section">
+            <div class="container">
+                <h2 class="section-title">Course <span>Materials</span></h2>
+                <div class="materials-grid">
+                    <div class="material-card" data-pdf-title="📘 Course Summary"
+                        data-pdf-url="https://github.com/Course-Summaries/OS-Summary-PDF/releases/latest/download/course.material.pdf">
+                        <h3>📘 Course Summary</h3>
+                        <p>Detailed overview of lectures, core concepts, and system principles. Your go-to guide for
+                            exam preparation.</p>
+                        <button class="button">Open Summary</button>
+                    </div>
+                    <div class="material-card" data-pdf-title="🔧 Functions Reference"
+                        data-pdf-url="https://github.com/Course-Summaries/OS-Summary-PDF/releases/latest/download/functions.pdf">
+                        <h3>🔧 Functions Reference</h3>
+                        <p>A quick cheat sheet for all POSIX functions used throughout the course. Perfect for labs and
+                            assignments.</p>
+                        <button class="button">Open Reference</button>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section id="feedback" class="content-section">
-            <h2 class="section-title">🤝 Contribute & Suggest</h2>
-            <p>Spotted a typo or have a suggestion? Contribute on <a href="https://github.com/Razi203/OS_Summary"
-                    target="_blank">GitHub</a> or submit anonymous feedback below.</p>
-            <form id="feedbackForm" action="https://formspree.io/f/xzzgbold" method="POST">
-                <label for="message">Your Suggestion:</label>
-                <textarea id="message" name="message" rows="5" required
-                    placeholder="Let us know what we can improve..."></textarea>
-                <button type="submit" class="button">Submit Suggestion</button>
-                <p id="formStatus"></p>
-            </form>
+        <!-- About Section -->
+        <section id="about" class="content-section fade-in-section">
+            <div class="container">
+                <h2 class="section-title">Project <span>Philosophy</span></h2>
+                <p>This project curates core topics from the Operating Systems (234123) course, serving as a study guide
+                    and a quick reference. Our goal is to provide a clean, accessible, and helpful resource for our
+                    classmates.</p>
+            </div>
+        </section>
+
+        <!-- Feedback Section -->
+        <section id="feedback" class="content-section fade-in-section">
+            <div class="container">
+                <h2 class="section-title">Contribute & <span>Suggest</span></h2>
+                <p>Spotted a typo or have a suggestion? We'd love your help. Contribute on <a
+                        href="https://github.com/Razi203/OS_Summary" target="_blank">GitHub</a> or submit anonymous
+                    feedback below.</p>
+                <form id="feedbackForm" action="https://formspree.io/f/xzzgbold" method="POST">
+                    <textarea id="message" name="message" rows="5" required
+                        placeholder="Let us know what we can improve..."></textarea>
+                    <div class="form-footer">
+                        <p id="formStatus"></p>
+                        <button type="submit" class="button">Submit Suggestion</button>
+                    </div>
+                </form>
+            </div>
         </section>
     </main>
 
-    <footer class="footer">
-        <p>Made with ❤️ by Yara & Razi | <a href="https://github.com/Razi203/OS_Summary" target="_blank">View on
-                GitHub</a></p>
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>Made with ❤️ by Yara & Razi | <a href="https://github.com/Razi203/OS_Summary" target="_blank">View on
+                    GitHub</a></p>
+        </div>
     </footer>
 
+    <!-- PDF Modal -->
     <div id="pdfModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modalTitle"></h3>
                 <div class="modal-controls">
                     <a id="modalDownload" class="button-icon" href="#" download title="Download PDF">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                            <polyline points="7 10 12 15 17 10" />
-                            <line x1="12" y1="15" x2="12" y2="3" />
-                        </svg>
+                        <i class="fas fa-download"></i>
                     </a>
                     <button id="modalClose" class="button-icon" title="Close">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18" />
-                            <line x1="6" y1="6" x2="18" y2="18" />
-                        </svg>
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
@@ -103,6 +136,8 @@
         </div>
     </div>
 
+    <!-- Your Script File -->
+    <script src="script.js"></script>
 </body>
 
 </html>
