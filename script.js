@@ -13,34 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Mouse position variables
-        let mouse = { x: -100, y: -100 }; // Start off-screen
-        // Cursor position variables
-        let dotPos = { x: -100, y: -100 };
-        let ringPos = { x: -100, y: -100 };
-
-        // Update mouse position
+        // Update cursor position instantly on mouse move
         window.addEventListener('mousemove', e => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
+            // We use left/top to position, and let CSS handle the transform for centering and scaling
+            const { clientX, clientY } = e;
+            cursor.style.left = `${clientX}px`;
+            cursor.style.top = `${clientY}px`;
+            cursorDot.style.left = `${clientX}px`;
+            cursorDot.style.top = `${clientY}px`;
         });
-
-        const tick = () => {
-            // This makes the dot follow the mouse instantly
-            dotPos.x = mouse.x;
-            dotPos.y = mouse.y;
-            cursorDot.style.transform = `translate(${dotPos.x}px, ${dotPos.y}px)`;
-
-            // This makes the ring "lag" behind the mouse with a lerp function
-            const lerp = (a, b, n) => (1 - n) * a + n * b;
-            // Increased from 0.5 to 0.8 for an even more responsive feel
-            ringPos.x = lerp(ringPos.x, mouse.x, 0.8);
-            ringPos.y = lerp(ringPos.y, mouse.y, 0.8);
-            cursor.style.transform = `translate(${ringPos.x - cursor.clientWidth / 2}px, ${ringPos.y - cursor.clientHeight / 2}px)`;
-
-            requestAnimationFrame(tick);
-        };
-        tick();
 
         // Handle hover states
         hoverables.forEach(el => {
