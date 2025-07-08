@@ -1,6 +1,70 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+    // --- High-Performance Custom Cursor ---
+    const initCursor = () => {
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        const hoverables = document.querySelectorAll('a, button, .material-card');
+
+        // Don't run on touch devices
+        if (!cursor || !cursorDot || window.matchMedia("(pointer: coarse)").matches) {
+            if (cursor) cursor.style.display = 'none';
+            if (cursorDot) cursorDot.style.display = 'none';
+            return;
+        }
+
+        // Mouse position variables
+        let mouse = { x: -100, y: -100 }; // Start off-screen
+        // Cursor position variables
+        let dotPos = { x: -100, y: -100 };
+        let ringPos = { x: -100, y: -100 };
+
+        // Update mouse position
+        window.addEventListener('mousemove', e => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        const tick = () => {
+            // This makes the dot follow the mouse instantly
+            dotPos.x = mouse.x;
+            dotPos.y = mouse.y;
+            cursorDot.style.transform = `translate(${dotPos.x}px, ${dotPos.y}px)`;
+
+            // This makes the ring "lag" behind the mouse with a lerp function
+            const lerp = (a, b, n) => (1 - n) * a + n * b;
+            // Increased from 0.5 to 0.8 for an even more responsive feel
+            ringPos.x = lerp(ringPos.x, mouse.x, 0.8);
+            ringPos.y = lerp(ringPos.y, mouse.y, 0.8);
+            cursor.style.transform = `translate(${ringPos.x - cursor.clientWidth / 2}px, ${ringPos.y - cursor.clientHeight / 2}px)`;
+
+            requestAnimationFrame(tick);
+        };
+        tick();
+
+        // Handle hover states
+        hoverables.forEach(el => {
+            el.addEventListener('mouseover', () => cursor.classList.add('cursor-grow'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-grow'));
+        });
+
+        // Handle visibility when mouse leaves/enters the window
+        document.addEventListener('mouseleave', () => {
+            cursor.classList.remove('is-visible');
+            cursorDot.classList.remove('is-visible');
+        });
+        document.addEventListener('mouseenter', () => {
+            cursor.classList.add('is-visible');
+            cursorDot.classList.add('is-visible');
+        });
+    };
+    initCursor();
+
+
     // --- Three.js Animated Background ---
     const initAnimatedBg = () => {
+        if (typeof THREE === 'undefined') return;
+
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({
@@ -41,11 +105,9 @@ document.addEventListener("DOMContentLoaded", () => {
             requestAnimationFrame(animate);
             const elapsedTime = clock.getElapsedTime();
 
-            // Animate stars
             stars.rotation.y = elapsedTime * 0.02;
             stars.rotation.x = elapsedTime * 0.01;
 
-            // Animate camera to follow mouse
             camera.position.x += (mouseX * 5 - camera.position.x) * 0.02;
             camera.position.y += (mouseY * 5 - camera.position.y) * 0.02;
             camera.lookAt(scene.position);
@@ -61,25 +123,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         animate();
     };
-    if (typeof THREE !== 'undefined') {
-        initAnimatedBg();
-    }
+    initAnimatedBg();
 
-
-    // --- Custom Cursor Logic ---
-    const cursor = document.querySelector('.cursor');
-    const cursorDot = document.querySelector('.cursor-dot');
-    if (cursor && cursorDot) {
-        const hoverables = document.querySelectorAll('a, button, .material-card');
-        document.addEventListener('mousemove', e => {
-            cursor.setAttribute('style', `top: ${e.pageY}px; left: ${e.pageX}px;`);
-            cursorDot.setAttribute('style', `top: ${e.pageY}px; left: ${e.pageX}px;`);
-        });
-        hoverables.forEach(el => {
-            el.addEventListener('mouseover', () => cursor.classList.add('cursor-grow'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-grow'));
-        });
-    }
 
     // --- Header Scroll Effect ---
     const header = document.getElementById('main-header');
@@ -131,7 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    // Stagger children if they exist
                     const childrenToStagger = entry.target.querySelectorAll('.material-card');
                     childrenToStagger.forEach((child, index) => {
                         child.style.transitionDelay = `${index * 150}ms`;
@@ -151,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const { width, height } = rect;
-            const rotateX = (y / height - 0.5) * -15; // Invert for natural feel
+            const rotateX = (y / height - 0.5) * -15;
             const rotateY = (x / width - 0.5) * 15;
             card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
         });
