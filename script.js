@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const initCursor = () => {
         const cursor = document.querySelector('.cursor');
         const cursorDot = document.querySelector('.cursor-dot');
-        const hoverables = document.querySelectorAll('a, button, .material-card');
+        const hoverables = document.querySelectorAll('a, button, .material-card, input[type="range"]');
 
         // Don't run on touch devices
         if (!cursor || !cursorDot || window.matchMedia("(pointer: coarse)").matches) {
@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Update cursor position instantly on mouse move
         window.addEventListener('mousemove', e => {
-            // We use left/top to position, and let CSS handle the transform for centering and scaling
             const { clientX, clientY } = e;
             cursor.style.left = `${clientX}px`;
             cursor.style.top = `${clientY}px`;
@@ -157,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    const childrenToStagger = entry.target.querySelectorAll('.material-card');
+                    const childrenToStagger = entry.target.querySelectorAll('.material-card, .audio-player-container');
                     childrenToStagger.forEach((child, index) => {
                         child.style.transitionDelay = `${index * 150}ms`;
                     });
@@ -225,6 +224,99 @@ document.addEventListener("DOMContentLoaded", () => {
             if (e.key === "Escape" && pdfModal.classList.contains("is-visible")) closeModal();
         });
     }
+
+    // --- Audio Player Logic (Updated for multiple players) ---
+    const allPlayerContainers = document.querySelectorAll('.audio-player-container');
+
+    allPlayerContainers.forEach(playerContainer => {
+        const audioPlayer = playerContainer.querySelector('.audio-player');
+        const playPauseBtn = playerContainer.querySelector('.play-pause-btn');
+        const playPauseIcon = playPauseBtn.querySelector('i');
+        const seekSlider = playerContainer.querySelector('.seek-slider');
+        const volumeSlider = playerContainer.querySelector('.volume-slider');
+        const muteBtn = playerContainer.querySelector('.mute-btn');
+        const muteIcon = muteBtn.querySelector('i');
+        const currentTimeEl = playerContainer.querySelector('.current-time');
+        const durationEl = playerContainer.querySelector('.duration');
+        const speedBtns = playerContainer.querySelectorAll('.speed-btn');
+
+        const formatTime = (time) => {
+            if (isNaN(time)) return "0:00";
+            const minutes = Math.floor(time / 60);
+            const seconds = Math.floor(time % 60);
+            return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        };
+
+        playPauseBtn.addEventListener('click', () => {
+            if (audioPlayer.paused) {
+                // Pause all other audio players
+                document.querySelectorAll('.audio-player').forEach(p => {
+                    if (p !== audioPlayer) {
+                        p.pause();
+                    }
+                });
+                audioPlayer.play();
+            } else {
+                audioPlayer.pause();
+            }
+        });
+
+        audioPlayer.addEventListener('play', () => {
+            playPauseIcon.classList.remove('fa-play');
+            playPauseIcon.classList.add('fa-pause');
+        });
+
+        audioPlayer.addEventListener('pause', () => {
+            playPauseIcon.classList.remove('fa-pause');
+            playPauseIcon.classList.add('fa-play');
+        });
+
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            durationEl.textContent = formatTime(audioPlayer.duration);
+            seekSlider.max = audioPlayer.duration;
+        });
+
+        audioPlayer.addEventListener('timeupdate', () => {
+            currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
+            seekSlider.value = audioPlayer.currentTime;
+        });
+
+        seekSlider.addEventListener('input', () => {
+            audioPlayer.currentTime = seekSlider.value;
+        });
+
+        volumeSlider.addEventListener('input', (e) => {
+            audioPlayer.volume = e.target.value;
+            audioPlayer.muted = e.target.value == 0;
+        });
+
+        audioPlayer.addEventListener('volumechange', () => {
+            volumeSlider.value = audioPlayer.volume;
+            if (audioPlayer.muted || audioPlayer.volume === 0) {
+                muteIcon.classList.remove('fa-volume-high');
+                muteIcon.classList.add('fa-volume-xmark');
+            } else {
+                muteIcon.classList.remove('fa-volume-xmark');
+                muteIcon.classList.add('fa-volume-high');
+            }
+        });
+
+        muteBtn.addEventListener('click', () => {
+            audioPlayer.muted = !audioPlayer.muted;
+        });
+
+        speedBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from buttons in the same player
+                playerContainer.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                audioPlayer.playbackRate = btn.dataset.speed;
+            });
+        });
+        // Set initial active speed button for this player
+        playerContainer.querySelector('.speed-btn[data-speed="1"]').classList.add('active');
+    });
+
 
     // --- Formspree Form Logic ---
     const form = document.getElementById("feedbackForm");
